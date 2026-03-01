@@ -10,6 +10,11 @@
     <a href="{{ route('admin.campaigns.index') }}" class="btn btn-secondary">Back to Campaigns</a>
 </p>
 
+<div id="question-form-success" class="alert alert-success alert-dismissible fade show d-none" role="alert">
+    <span id="question-form-success-text"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <div class="card mb-4">
     <div class="card-header">Add Question</div>
     <div class="card-body">
@@ -20,15 +25,12 @@
 <div class="card">
     <div class="card-header">Questions ({{ $campaign->questions->count() }})</div>
     <div class="card-body">
-        @if($campaign->questions->isEmpty())
-            <p class="text-muted mb-0">No questions yet. Add one above.</p>
-        @else
-            <ul class="list-group list-group-flush" id="questions-list">
-                @foreach($campaign->questions as $question)
-                    @include('admin.questions.partials.row', ['question' => $question])
-                @endforeach
-            </ul>
-        @endif
+        <p class="text-muted mb-0" id="questions-empty-msg" @if(!$campaign->questions->isEmpty()) style="display:none" @endif>No questions yet. Add one above.</p>
+        <ul class="list-group list-group-flush" id="questions-list">
+            @foreach($campaign->questions as $question)
+                @include('admin.questions.partials.row', ['question' => $question])
+            @endforeach
+        </ul>
     </div>
 </div>
 @endsection

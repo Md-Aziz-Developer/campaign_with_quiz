@@ -27,6 +27,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('campaigns/{campaign}/publish', [CampaignController::class, 'publish'])->name('campaigns.publish');
     Route::get('campaigns/{campaign}/questions', [QuestionController::class, 'index'])->name('campaigns.questions');
     Route::post('campaigns/{campaign}/questions', [QuestionController::class, 'store'])->name('campaigns.questions.store');
+    Route::get('campaigns/{campaign}/questions/{question}', [QuestionController::class, 'show'])->name('campaigns.questions.show');
+    Route::put('campaigns/{campaign}/questions/{question}', [QuestionController::class, 'update'])->name('campaigns.questions.update');
     Route::delete('campaigns/{campaign}/questions/{question}', [QuestionController::class, 'destroy'])->name('campaigns.questions.destroy');
     Route::resource('campaigns', CampaignController::class);
     Route::get('campaigns/{campaign}/reports', [ReportController::class, 'index'])->name('campaigns.reports.index');
@@ -37,5 +39,3 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

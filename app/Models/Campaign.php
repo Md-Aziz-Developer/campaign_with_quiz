@@ -12,6 +12,7 @@ class Campaign extends Model
         'title',
         'description',
         'status',
+        'allow_multiple_responses',
         'unique_slug',
         'created_by',
         'expires_at',
@@ -21,6 +22,7 @@ class Campaign extends Model
     {
         return [
             'expires_at' => 'datetime',
+            'allow_multiple_responses' => 'boolean',
         ];
     }
 

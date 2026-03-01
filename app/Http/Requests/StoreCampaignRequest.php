@@ -17,6 +17,7 @@ class StoreCampaignRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'status' => ['nullable', 'in:draft,published'],
+            'allow_multiple_responses' => ['nullable', 'boolean'],
         ];
     }
 }

@@ -30,7 +30,8 @@ class ReportController extends Controller
         if ($response->campaign_id !== $campaign->id) {
             abort(404);
         }
-        $response->load(['responseAnswers.question']);
+        $response->load(['responseAnswers.question.options']);
+        $response->setRelation('responseAnswers', $response->responseAnswers->sortBy(fn ($a) => $a->question->order)->values());
         return view('admin.reports.show', compact('campaign', 'response'));
     }
 

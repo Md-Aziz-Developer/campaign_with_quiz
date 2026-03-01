@@ -35,6 +35,22 @@ class CampaignController extends Controller
             'participant_email' => ['required', 'email'],
         ])->validate();
 
+        $email = $valid['participant_email'];
+        $alreadySubmitted = Response::where('campaign_id', $campaign->id)
+            ->where('participant_email', $email)
+            ->whereNotNull('completed_at')
+            ->exists();
+
+        if ($alreadySubmitted && ! $campaign->allow_multiple_responses) {
+            return redirect()->route('campaign.show', $campaign)
+                ->withInput($request->only('participant_name', 'participant_email'))
+                ->with('error', 'You have already submitted a response for this campaign.');
+        }
+
+        if ($alreadySubmitted && $campaign->allow_multiple_responses) {
+            session()->flash('warning', 'You have already submitted a response. This will add another response.');
+        }
+
         $response = Response::create([
             'campaign_id' => $campaign->id,
             'participant_name' => $valid['participant_name'],
@@ -151,10 +167,11 @@ class CampaignController extends Controller
         if (! $responseId) {
             return redirect()->route('campaign.show', $campaign);
         }
-        $response = Response::with(['responseAnswers.question'])->find($responseId);
+        $response = Response::with(['responseAnswers.question.options'])->find($responseId);
         if (! $response || $response->campaign_id !== $campaign->id) {
             return redirect()->route('campaign.show', $campaign);
         }
+        $response->setRelation('responseAnswers', $response->responseAnswers->sortBy(fn ($a) => $a->question->order)->values());
         return view('campaign.complete', compact('campaign', 'response'));
     }
 }

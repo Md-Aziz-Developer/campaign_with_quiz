@@ -18,9 +18,9 @@ class NumberRule extends Model
     protected function casts(): array
     {
         return [
-            'exact_value' => 'decimal:4',
-            'min_value' => 'decimal:4',
-            'max_value' => 'decimal:4',
+            'exact_value' => 'decimal:2',
+            'min_value' => 'decimal:2',
+            'max_value' => 'decimal:2',
             'score' => 'decimal:2',
         ];
     }

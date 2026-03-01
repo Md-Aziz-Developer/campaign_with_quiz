@@ -28,6 +28,16 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * Get the post login redirect path (admins go to admin dashboard).
+     *
+     * @return string
+     */
+    protected function redirectTo(): string
+    {
+        return auth()->user()->isAdmin() ? '/admin' : '/home';
+    }
+
+    /**
      * Create a new controller instance.
      *
      * @return void

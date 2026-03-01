@@ -31,6 +31,13 @@
                     <option value="published" {{ old('status', $campaign->status) === 'published' ? 'selected' : '' }}>Published</option>
                 </select>
             </div>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="allow_multiple_responses" value="1" id="allow_multiple_responses" {{ old('allow_multiple_responses', $campaign->allow_multiple_responses) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="allow_multiple_responses">Allow multiple responses from same participant (same email)</label>
+                </div>
+                <p class="text-muted small mb-0">If unchecked, each participant can submit only once. If checked, repeat submissions show a warning but are allowed.</p>
+            </div>
             <p class="text-muted small">Slug: <code>{{ $campaign->unique_slug }}</code></p>
         </div>
     </div>

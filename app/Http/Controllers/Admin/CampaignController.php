@@ -36,6 +36,7 @@ class CampaignController extends Controller
             'title' => $request->title,
             'description' => $request->description ?? '',
             'status' => $request->status ?? 'draft',
+            'allow_multiple_responses' => $request->boolean('allow_multiple_responses'),
             'unique_slug' => $slug,
             'created_by' => $request->user()->id,
         ]);
@@ -59,6 +60,7 @@ class CampaignController extends Controller
             'title' => $request->title,
             'description' => $request->description ?? $campaign->description,
             'status' => $request->status ?? $campaign->status,
+            'allow_multiple_responses' => $request->boolean('allow_multiple_responses'),
         ]);
         return redirect()->route('admin.campaigns.index')->with('success', 'Campaign updated.');
     }

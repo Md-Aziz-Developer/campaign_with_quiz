@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/admin';
 
     /**
      * Create a new controller instance.
@@ -63,10 +63,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => 'admin',
         ]);
+        // Ensure new registrations are always admin (in case of DB default or caching)
+        if ($user->role !== 'admin') {
+            $user->forceFill(['role' => 'admin'])->save();
+        }
+        return $user;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Question;
 use App\Rules\NoOverlappingNumberRanges;
+use App\Rules\NumberRuleExactOrRangeOnly;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreQuestionRequest extends FormRequest
@@ -36,9 +37,8 @@ class StoreQuestionRequest extends FormRequest
         }
 
         if ($this->input('type') === Question::TYPE_NUMBER) {
-            $rules['number_rules'] = ['required', 'array', 'min:1', new NoOverlappingNumberRanges];
+            $rules['number_rules'] = ['required', 'array', 'min:1', new NumberRuleExactOrRangeOnly, new NoOverlappingNumberRanges];
             $rules['number_rules.*.score'] = ['required', 'numeric'];
-            // exact_value XOR (min_value + max_value)
         }
 
         return $rules;
