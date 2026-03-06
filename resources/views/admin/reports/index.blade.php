@@ -3,8 +3,9 @@
 @section('title', 'Reports - ' . $campaign->title)
 
 @section('content')
-<h1 class="mb-2">Reports</h1>
-<p class="text-muted">Campaign: <strong>{{ $campaign->title }}</strong></p>
+<h1 class="h3 mb-1">Reports</h1>
+<p class="text-muted small mb-2">Campaign: <strong>{{ $campaign->title }}</strong></p>
+<p class="text-muted small mb-3">View completed responses, average score, and export data. Click <strong>View</strong> on a participant to see their answers and per-question scores.</p>
 <p>
     <a href="{{ route('admin.campaigns.reports.export', $campaign) }}" class="btn btn-success">Export CSV</a>
     <a href="{{ route('admin.campaigns.questions', $campaign) }}" class="btn btn-outline-secondary">Questions</a>
@@ -12,11 +13,14 @@
 </p>
 
 @if(isset($averageScore))
-<div class="alert alert-info">Average score: <strong>{{ number_format($averageScore, 2) }}</strong></div>
+<div class="alert alert-info border-0 shadow-sm">Average score: <strong>{{ number_format($averageScore, 2) }}</strong></div>
 @endif
 
-<div class="card">
-    <div class="card-header">Participants ({{ $responses->total() }})</div>
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white">
+        <h6 class="mb-0">Participants ({{ $responses->total() }})</h6>
+        <p class="text-muted small mb-0">Completed responses for this campaign. Export CSV to download all data for analysis.</p>
+    </div>
     <div class="card-body">
         @if($responses->isEmpty())
             <p class="text-muted mb-0">No completed responses yet.</p>

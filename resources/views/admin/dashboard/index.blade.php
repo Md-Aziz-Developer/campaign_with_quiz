@@ -3,9 +3,16 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">Dashboard</h1>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <div>
+        <h1 class="h3 mb-1">Dashboard</h1>
+        <p class="text-muted small mb-0">Overview of your campaigns and response activity.</p>
+    </div>
     <a href="{{ route('admin.campaigns.create') }}" class="btn btn-primary">+ New Campaign</a>
+</div>
+
+<div class="alert alert-light border mb-4" role="region" aria-label="How to use">
+    <strong>How to use:</strong> Create a campaign, add questions (MCQ, text, or number with scoring rules), then publish it. Share the campaign link with participants. View responses and scores under <strong>Reports</strong> for each campaign.
 </div>
 
 <div class="row g-3 mb-4">
@@ -37,7 +44,10 @@
 
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
-        <h5 class="mb-0">My Campaigns</h5>
+        <div>
+            <h5 class="mb-0">My Campaigns</h5>
+            <p class="text-muted small mb-0">Your recent campaigns. Use <strong>Manage questions</strong> to add or edit questions, <strong>Reports</strong> to view responses.</p>
+        </div>
         <a href="{{ route('admin.campaigns.index') }}" class="btn btn-sm btn-outline-primary">View all</a>
     </div>
     <div class="card-body">

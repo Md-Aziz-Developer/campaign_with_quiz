@@ -3,10 +3,11 @@
 @section('title', 'Question ' . $order)
 
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <p class="text-muted small">Question {{ $order }} of {{ $total }}</p>
-        <h4 class="mb-4">{{ $question->question_text }} @if($question->is_mandatory)<span class="text-danger">*</span>@endif</h4>
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+        <p class="text-muted small mb-2">Question {{ $order }} of {{ $total }}</p>
+        <p class="text-muted small mb-3">Select or enter your answer, then click <strong>Next</strong> to continue or <strong>Previous</strong> to go back.</p>
+        <h4 class="mb-4">{!! $question->question_text !!} @if($question->is_mandatory)<span class="text-danger">*</span>@endif</h4>
 
         <form action="{{ route('campaign.answer', $campaign) }}" method="POST">
             @csrf

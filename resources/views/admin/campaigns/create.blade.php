@@ -3,10 +3,16 @@
 @section('title', 'Create Campaign')
 
 @section('content')
-<h1 class="mb-4">Create Campaign</h1>
+<h1 class="h3 mb-1">Create Campaign</h1>
+<p class="text-muted small mb-4">Define a new survey: add a title, optional description, and set whether it is draft or published. After saving, you will add questions on the next screen.</p>
+
 <form action="{{ route('admin.campaigns.store') }}" method="POST" id="campaign-form">
     @csrf
-    <div class="card mb-3">
+    <div class="card border-0 shadow-sm mb-3">
+        <div class="card-header bg-white">
+            <h6 class="mb-0">Campaign details</h6>
+            <p class="text-muted small mb-0">Title is required. Use the description to introduce the survey to participants (e.g. instructions or thank-you text).</p>
+        </div>
         <div class="card-body">
             <div class="mb-3">
                 <label for="title" class="form-label">Title *</label>

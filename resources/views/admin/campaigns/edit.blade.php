@@ -3,11 +3,17 @@
 @section('title', 'Edit Campaign')
 
 @section('content')
-<h1 class="mb-4">Edit Campaign</h1>
+<h1 class="h3 mb-1">Edit Campaign</h1>
+<p class="text-muted small mb-4">Update the campaign title, description, status, or response settings. The shareable link (slug) is shown below and does not change when you edit.</p>
+
 <form action="{{ route('admin.campaigns.update', $campaign) }}" method="POST" id="campaign-form">
     @csrf
     @method('PUT')
-    <div class="card mb-3">
+    <div class="card border-0 shadow-sm mb-3">
+        <div class="card-header bg-white">
+            <h6 class="mb-0">Campaign details</h6>
+            <p class="text-muted small mb-0">Changes here apply to the campaign. Use <strong>Manage Questions</strong> to add or edit questions.</p>
+        </div>
         <div class="card-body">
             <div class="mb-3">
                 <label for="title" class="form-label">Title *</label>

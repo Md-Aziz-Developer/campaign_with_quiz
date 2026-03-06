@@ -1,35 +1,87 @@
-<form id="add-question-form" class="row g-3">
+<form id="add-question-form" class="add-question-form">
     @csrf
     <input type="hidden" name="campaign_id" value="{{ $campaign->id }}">
     <input type="hidden" id="editing-question-id" name="editing_question_id" value="">
-    <div class="col-12">
-        <label for="question_text" class="form-label">Question text *</label>
-        <input type="text" class="form-control" name="question_text" id="question_text" required>
-    </div>
-    <div class="col-md-4">
-        <label for="question_type" class="form-label">Type</label>
-        <select class="form-select" name="type" id="question_type">
-            <option value="mcq_single">MCQ Single</option>
-            <option value="mcq_multi">MCQ Multi</option>
-            <option value="text">Text</option>
-            <option value="number">Number</option>
-        </select>
-    </div>
-    <div class="col-md-4">
-        <label class="form-label">&nbsp;</label>
-        <div class="form-check mt-2">
-            <input class="form-check-input" type="checkbox" name="is_mandatory" id="is_mandatory" value="1">
-            <label class="form-check-label" for="is_mandatory">Mandatory</label>
+
+    <div class="form-section form-section-editor">
+        <label for="question_text" class="form-label fw-semibold">Question text <span class="text-danger">*</span></label>
+        <p class="form-hint">Use the toolbar to format text or add instructions (bold, lists, links). Participants will see this as the question prompt.</p>
+        <div id="question-text-editor-wrap" class="question-text-editor-wrap">
+            <div id="question-text-editor" class="question-text-editor-inner"></div>
         </div>
+        <input type="hidden" name="question_text" id="question_text" value="">
     </div>
-    <div class="col-12" id="type-specific-fields">
+
+    <div class="form-section form-section-settings">
+        <div class="row g-3">
+            <div class="col-md-5">
+                <label for="question_type" class="form-label fw-semibold">Question type</label>
+                <p class="form-hint">Determines how participants answer and how scoring works.</p>
+                <select class="form-select form-select-lg" name="type" id="question_type">
+                    <option value="mcq_single">MCQ Single — one answer</option>
+                    <option value="mcq_multi">MCQ Multi — multiple answers</option>
+                    <option value="text">Text — free text (keyword scoring)</option>
+                    <option value="number">Number — numeric (exact or range)</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex align-items-end pb-2">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" name="is_mandatory" id="is_mandatory" value="1">
+                    <label class="form-check-label fw-medium" for="is_mandatory">Required question</label>
+                </div>
+            </div>
+        </div>
+        <p class="form-hint mt-1 mb-0">When required, participants must answer before continuing.</p>
+    </div>
+
+    <div class="form-section form-section-dynamic" id="type-specific-fields">
         {{-- Filled by JS --}}
     </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary" id="add-question-btn">Add Question</button>
-        <button type="button" class="btn btn-outline-secondary ms-2" id="cancel-edit-btn" style="display:none">Cancel</button>
+
+    <div class="form-section form-section-actions">
+        <button type="submit" class="btn btn-primary btn-lg px-4" id="add-question-btn">Add Question</button>
+        <button type="button" class="btn btn-outline-secondary btn-lg px-4 ms-2" id="cancel-edit-btn" style="display:none">Cancel</button>
     </div>
 </form>
+
+<style>
+.add-question-form { max-width: 720px; }
+.form-section {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+}
+.form-section-editor { background: #fff; border-color: #e2e8f0; }
+.form-section-settings { padding-bottom: 1rem; }
+.form-section-dynamic { min-height: 60px; }
+.form-section-actions { background: transparent; border: none; padding-bottom: 0; margin-bottom: 0; }
+.form-hint { font-size: 0.8125rem; color: #64748b; margin-bottom: 0.5rem; margin-top: 0.15rem; }
+.form-section .form-label { color: #334155; margin-bottom: 0.25rem; }
+.question-text-editor-col { position: relative; width: 100%; overflow: hidden; }
+.question-text-editor-wrap {
+    position: relative; display: block; width: 100%; min-height: 130px;
+    border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;
+}
+.question-text-editor-inner { min-height: 130px; background: #fff; }
+#question-text-editor { position: relative !important; display: block !important; width: 100% !important; }
+#question-text-editor .ql-container.ql-snow { position: relative !important; min-height: 100px; }
+#question-text-editor .ql-editor { min-height: 100px; }
+#question-text-editor .ql-toolbar.ql-snow { border-color: #e2e8f0; background: #f8fafc; }
+#question-text-editor .ql-container.ql-snow { border-color: #e2e8f0; }
+.dynamic-section-title { font-size: 0.9375rem; font-weight: 600; color: #334155; margin-bottom: 0.35rem; }
+.dynamic-section-hint { font-size: 0.8125rem; color: #64748b; margin-bottom: 0.75rem; }
+.option-row {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+    padding: 0.6rem 0.75rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+}
+.option-row .form-control { border-radius: 6px; }
+.option-row .option-score { max-width: 90px; }
+.option-row .form-check-input { margin-top: 0.1rem; }
+.btn-add-row { border-radius: 8px; font-weight: 500; }
+.keyword-row, .number-rules-list .row { background: #fff; border-radius: 8px; padding: 0.5rem; margin-bottom: 0.5rem; border: 1px solid #e2e8f0; }
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -49,7 +101,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function populateForm(q) {
-        document.getElementById('question_text').value = q.question_text || '';
+        if (window.questionTextQuill) {
+            window.questionTextQuill.root.innerHTML = q.question_text || '';
+        }
+        var qtInput = document.getElementById('question_text');
+        if (qtInput) qtInput.value = q.question_text || '';
         typeSelect.value = q.type || 'mcq_single';
         document.getElementById('is_mandatory').checked = !!q.is_mandatory;
         renderTypeFields();
@@ -104,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     rules.forEach(function(r) {
                         addNumberRuleRow();
-                        var rows = nrList.querySelectorAll('.row.g-1');
+                        var rows = nrList.querySelectorAll('.number-rule-row');
                         var last = rows[rows.length - 1];
                         if (last) {
                             last.querySelector('.exact').value = fmtNum(r.exact_value);
@@ -144,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cancelEditBtn) {
         cancelEditBtn.addEventListener('click', function() {
             setEditMode('');
+            if (window.questionTextQuill) window.questionTextQuill.root.innerHTML = '';
             document.getElementById('question_text').value = '';
             renderTypeFields();
         });
@@ -153,15 +210,15 @@ document.addEventListener('DOMContentLoaded', function() {
         var type = typeSelect.value;
         container.innerHTML = '';
         if (type === 'mcq_single' || type === 'mcq_multi') {
-            container.innerHTML = '<label class="form-label">Options</label><div id="options-list"></div><button type="button" class="btn btn-sm btn-outline-secondary mt-1" id="add-option">+ Add option</button>';
+            container.innerHTML = '<p class="dynamic-section-title">Answer options</p><p class="dynamic-section-hint">Add choices and assign a <strong>score</strong> (e.g. 0–1). Check <strong>Correct</strong> for the right answer(s). At least one option required.</p><div id="options-list"></div><button type="button" class="btn btn-add-row btn-outline-primary btn-sm mt-1" id="add-option">+ Add option</button>';
             addOptionRow();
             addOptionRow();
         } else if (type === 'text') {
-            container.innerHTML = '<label class="form-label">Keyword rules (keyword → score)</label><div id="keyword-rules-list"></div><button type="button" class="btn btn-sm btn-outline-secondary mt-1" id="add-keyword">+ Add keyword</button>';
+            container.innerHTML = '<p class="dynamic-section-title">Keyword scoring rules</p><p class="dynamic-section-hint">If the participant\'s text contains a <strong>keyword</strong>, award the given <strong>score</strong>. Add multiple rules; matching keywords can sum. At least one rule required.</p><div id="keyword-rules-list"></div><button type="button" class="btn btn-add-row btn-outline-primary btn-sm mt-1" id="add-keyword">+ Add keyword</button>';
             addKeywordRow();
             addKeywordRow();
         } else if (type === 'number') {
-            container.innerHTML = '<label class="form-label">Number rules (exact or range + score)</label><p class="text-muted small mb-1">Per rule: use <strong>Exact</strong> only, or <strong>Min + Max</strong> only—not both.</p><div id="number-rules-list"></div><button type="button" class="btn btn-sm btn-outline-secondary mt-1" id="add-number-rule">+ Add rule</button>';
+            container.innerHTML = '<p class="dynamic-section-title">Number scoring rules</p><p class="dynamic-section-hint">Per rule: use <strong>Exact</strong> only, or <strong>Min + Max</strong> only—not both. Assign a <strong>Score</strong> for matching answers.</p><div id="number-rules-list"></div><button type="button" class="btn btn-add-row btn-outline-primary btn-sm mt-1" id="add-number-rule">+ Add rule</button>';
             addNumberRuleRow();
         }
         bindTypeButtons();
@@ -170,11 +227,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function addOptionRow() {
         var list = document.getElementById('options-list');
         if (!list) return;
+        var id = 'opt_correct_' + list.children.length;
         var div = document.createElement('div');
-        div.className = 'input-group mb-1';
-        div.innerHTML = '<input type="text" class="form-control option-text" placeholder="Option text" name="opt_text[]">' +
-            '<input type="number" step="0.01" class="form-control option-score" placeholder="Score" name="opt_score[]" style="max-width:80px">' +
-            '<div class="form-check form-check-inline align-self-center ms-2"><input class="form-check-input is-correct" type="checkbox" name="opt_correct[]" value="1"><label class="form-check-label small">Correct</label></div>';
+        div.className = 'option-row';
+        div.innerHTML = '<input type="text" class="form-control option-text flex-grow-1" placeholder="Option text" name="opt_text[]" style="min-width:140px">' +
+            '<input type="number" step="0.01" class="form-control option-score" placeholder="Score" name="opt_score[]" title="Points for this option">' +
+            '<div class="form-check"><input class="form-check-input is-correct" type="checkbox" name="opt_correct[]" value="1" id="' + id + '"><label class="form-check-label small" for="' + id + '">Correct</label></div>';
         list.appendChild(div);
     }
 
@@ -182,9 +240,9 @@ document.addEventListener('DOMContentLoaded', function() {
         var list = document.getElementById('keyword-rules-list');
         if (!list) return;
         var div = document.createElement('div');
-        div.className = 'input-group mb-1';
+        div.className = 'keyword-row input-group';
         div.innerHTML = '<input type="text" class="form-control" placeholder="Keyword" name="kw_keyword[]">' +
-            '<input type="number" step="0.01" class="form-control" placeholder="Score" name="kw_score[]" style="max-width:80px">';
+            '<input type="number" step="0.01" class="form-control" placeholder="Score" name="kw_score[]" style="max-width:90px">';
         list.appendChild(div);
     }
 
@@ -192,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var list = document.getElementById('number-rules-list');
         if (!list) return;
         var div = document.createElement('div');
-        div.className = 'row g-1 mb-1 number-rule-row';
+        div.className = 'row g-2 mb-2 number-rule-row';
         div.innerHTML = '<div class="col"><input type="number" step="any" class="form-control form-control-sm exact" placeholder="Exact" name="nr_exact[]"></div>' +
             '<div class="col"><input type="number" step="any" class="form-control form-control-sm min" placeholder="Min" name="nr_min[]"></div>' +
             '<div class="col"><input type="number" step="any" class="form-control form-control-sm max" placeholder="Max" name="nr_max[]"></div>' +
@@ -225,10 +283,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
+        var qTextInput = document.getElementById('question_text');
+        if (window.questionTextQuill) {
+            qTextInput.value = window.questionTextQuill.root.innerHTML;
+        }
+        if (!qTextInput.value.trim() || (window.questionTextQuill && !window.questionTextQuill.getText().trim())) {
+            alert('Question text is required.');
+            return;
+        }
         var type = typeSelect.value;
         var data = new FormData();
         data.append('_token', form.querySelector('input[name=_token]').value);
-        data.append('question_text', document.getElementById('question_text').value);
+        data.append('question_text', qTextInput.value);
         data.append('type', type);
         data.append('is_mandatory', document.getElementById('is_mandatory').checked ? '1' : '0');
 
@@ -317,6 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (emptyMsg) emptyMsg.style.display = 'none';
                 }
                 setEditMode('');
+                if (window.questionTextQuill) window.questionTextQuill.root.innerHTML = '';
                 document.getElementById('question_text').value = '';
                 if (document.getElementById('options-list')) document.getElementById('options-list').innerHTML = '';
                 renderTypeFields();
@@ -339,5 +406,14 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Request failed');
         });
     });
+});
+</script>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof Quill !== 'undefined' && document.getElementById('question-text-editor')) {
+        window.questionTextQuill = new Quill('#question-text-editor', { theme: 'snow' });
+    }
 });
 </script>
