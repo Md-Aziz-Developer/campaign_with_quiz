@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Question;
 use App\Rules\NoOverlappingNumberRanges;
 use App\Rules\NumberRuleExactOrRangeOnly;
+use App\Rules\UniqueQuestionTextInCampaign;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreQuestionRequest extends FormRequest
@@ -16,8 +17,14 @@ class StoreQuestionRequest extends FormRequest
 
     public function rules(): array
     {
+        $campaign = $this->route('campaign');
+        $question = $this->route('question');
+
         $rules = [
-            'question_text' => ['required', 'string'],
+            'question_text' => array_merge(
+                ['required', 'string'],
+                $campaign ? [new UniqueQuestionTextInCampaign($campaign, $question)] : []
+            ),
             'type' => ['required', 'in:mcq_single,mcq_multi,text,number'],
             'is_mandatory' => ['boolean'],
             'order' => ['nullable', 'integer', 'min:0'],

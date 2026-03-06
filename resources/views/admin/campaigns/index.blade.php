@@ -3,9 +3,16 @@
 @section('title', 'Campaigns')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">Campaigns</h1>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <div>
+        <h1 class="h3 mb-1">Campaigns</h1>
+        <p class="text-muted small mb-0">Create and manage survey campaigns. Each campaign has its own questions and can be shared via a unique link.</p>
+    </div>
     <a href="{{ route('admin.campaigns.create') }}" class="btn btn-primary">+ Create Campaign</a>
+</div>
+
+<div class="alert alert-light border mb-4" role="region" aria-label="About this page">
+    <strong>This page contains:</strong> A list of all your campaigns. For each campaign you can <strong>Manage questions</strong> (add, edit, reorder), <strong>View reports</strong> (see participants and scores), <strong>Edit</strong> title/description, or <strong>Publish</strong> when ready. Published campaigns can be shared; draft campaigns are only visible to you.
 </div>
 
 <div class="card border-0 shadow-sm">

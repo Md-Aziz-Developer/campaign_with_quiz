@@ -3,14 +3,15 @@
 @section('title', $campaign->title)
 
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <h1 class="card-title">{{ $campaign->title }}</h1>
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+        <h1 class="card-title h4 mb-3">{{ $campaign->title }}</h1>
         @if($campaign->description)
             <div class="mb-4">{!! $campaign->description !!}</div>
         @endif
         <hr>
-        <h5>Enter your details to start</h5>
+        <h5 class="mb-2">Enter your details to start</h5>
+        <p class="text-muted small mb-3">Provide your name and email to begin the questionnaire. You will answer one question at a time. Required questions are marked with <span class="text-danger">*</span>.</p>
         <form action="{{ route('campaign.start', $campaign) }}" method="POST" class="row g-3">
             @csrf
             <div class="col-md-6">

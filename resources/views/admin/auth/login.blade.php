@@ -1,11 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Admin Login') }}</div>
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0">{{ __('Admin Login') }}</h5>
+                    <p class="text-muted small mb-0 mt-1">Sign in with your admin account to manage campaigns, questions, and reports.</p>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.login') }}">

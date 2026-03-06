@@ -1,7 +1,7 @@
 <li class="list-group-item d-flex justify-content-between align-items-start" data-question-id="{{ $question->id }}">
     <div>
         <span class="badge bg-secondary me-2">#{{ $question->order }}</span>
-        <strong>{{ $question->question_text }}</strong>
+        <strong>{!! $question->question_text !!}</strong>
         <span class="badge bg-info ms-2">{{ $question->type }}</span>
         @if($question->is_mandatory)<span class="badge bg-warning">Required</span>@endif
         <div class="small text-muted mt-1">
